@@ -24,12 +24,12 @@ class MethodChainingProxy
     /**
      * @var T
      */
-    protected $proxyValue;
+    protected mixed $proxyValue;
 
     /**
      * @var T
      */
-    protected $cloneValue;
+    protected mixed $cloneValue;
 
     protected int $callMode = self::CALL_MODE_MIXED;
 
@@ -67,7 +67,7 @@ class MethodChainingProxy
     /**
      * @return T
      */
-    public function popValue()
+    public function popValue(): mixed
     {
         return $this->proxyValue;
     }
@@ -75,43 +75,15 @@ class MethodChainingProxy
     /**
      * @return T
      */
-    public function popCloneValue()
+    public function popCloneValue(): mixed
     {
         return $this->cloneValue;
     }
 
-
     /**
      * @return self<T>|T
      */
-    public function tap()
-    {
-        return $this->setCallMode(self::CALL_MODE_TAP);
-    }
-
-    /**
-     * @param  int  $mode
-     * @return self<T>|T
-     */
-    protected function setCallMode(int $mode)
-    {
-        $this->callMode = $mode;
-
-        return $this;
-    }
-
-    /**
-     * @return self<T>|T
-     */
-    public function pipe()
-    {
-        return $this->setCallMode(self::CALL_MODE_PIPE);
-    }
-
-    /**
-     * @return self<T>|T
-     */
-    public function mixed()
+    public function switchMixedMode(): self
     {
         return $this->setCallMode(self::CALL_MODE_MIXED);
     }
@@ -119,16 +91,51 @@ class MethodChainingProxy
     /**
      * @return self<T>|T
      */
-    public function tapOnce()
+    public function switchTapMode(): self
+    {
+        return $this->setCallMode(self::CALL_MODE_TAP);
+    }
+
+    /**
+     * @return self<T>|T
+     */
+    public function switchPipeMode(): self
+    {
+        return $this->setCallMode(self::CALL_MODE_PIPE);
+    }
+
+    /**
+     * @return self<T>|T
+     */
+    public function tapOnce(): self
     {
         return $this->setOnceCallMode(self::CALL_MODE_TAP);
+    }
+
+    /**
+     * @return self<T>|T
+     */
+    public function pipeOnce(): self
+    {
+        return $this->setOnceCallMode(self::CALL_MODE_PIPE);
+    }
+
+    /**
+     * @param  int  $mode
+     * @phpstan-return self<T>|T
+     */
+    protected function setCallMode(int $mode): self
+    {
+        $this->callMode = $mode;
+
+        return $this;
     }
 
     /**
      * @param ?int  $mode
      * @return self<T>|T
      */
-    protected function setOnceCallMode(?int $mode)
+    protected function setOnceCallMode(?int $mode): self
     {
         $this->onceCallMode = $mode;
 
@@ -136,18 +143,10 @@ class MethodChainingProxy
     }
 
     /**
-     * @return self<T>|T
-     */
-    public function pipeOnce()
-    {
-        return $this->setOnceCallMode(self::CALL_MODE_PIPE);
-    }
-
-    /**
      * @param  \Closure  $closure
      * @return self<T>|T
      */
-    public function after(\Closure $closure)
+    public function after(\Closure $closure): self
     {
         $closure($this->proxyValue, $this->cloneValue, $this);
 
@@ -159,7 +158,7 @@ class MethodChainingProxy
      * @param  mixed  $value
      * @return self<T>|T
      */
-    public function pick(string $name, &$value)
+    public function pick(string $name, mixed &$value): self
     {
         $value = $this->proxyValue->{$name};
 
@@ -172,7 +171,7 @@ class MethodChainingProxy
      * @param  array  $parameters
      * @return self<T>|T
      */
-    public function methodPick(&$value, string $method, ...$parameters)
+    public function methodPick(&$value, string $method, ...$parameters): self
     {
         $value = $this->proxyValue->{$method}(...$parameters);
 
@@ -183,9 +182,15 @@ class MethodChainingProxy
      * @param  string  $key
      * @return self<T>|T
      */
-    public function __get(string $key)
+    public function __get(string $key): self
     {
-        if (in_array($key, ['tap', 'tapOnce', 'pipe', 'pipeOnce', 'mixed'])) {
+        if (in_array($key, ['tap', 'pipe', 'mixed'])) {
+            $key = "switch{$key}Mode";
+
+            return $this->{$key}();
+        }
+
+        if (in_array($key, ['tapOnce', 'pipeOnce'])) {
             return $this->{$key}();
         }
 
@@ -199,7 +204,7 @@ class MethodChainingProxy
      * @param  array  $parameters
      * @return self<T>|T
      */
-    public function __call(string $method, array $parameters)
+    public function __call(string $method, array $parameters): self
     {
         $result = $this->proxyValue->{$method}(...$parameters);
 
@@ -214,5 +219,4 @@ class MethodChainingProxy
 
         return $this;
     }
-
 }

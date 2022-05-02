@@ -10,7 +10,8 @@ use Liyuze\MethodChainingProxy\Tests\TestCase;
 
 class MethodChainingProxyTest extends TestCase
 {
-    public function test_default_for_mixed_mode()
+    //mixed_mode
+    public function test_default()
     {
         $cat = new Cat('a', 1);
         $proxy = new MethodChainingProxy($cat);

@@ -9,6 +9,19 @@ use Liyuze\MethodChainingProxy\Tests\TestCase;
 
 class MethodChainingFactoryTest extends TestCase
 {
+    public function test_default()
+    {
+        $cat = new Cat('a', 1);
+        $proxy = MethodChainingFactory::create($cat);
+        $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED);
+        self::assertEquals($proxy, $proxy2);
+
+
+        $proxy3 = MethodChainingFactory::create($cat, false);
+        $proxy4 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED, false);
+        self::assertEquals($proxy3, $proxy4);
+    }
+
     public function test_mixed_mode()
     {
         $cat = new Cat('a', 1);

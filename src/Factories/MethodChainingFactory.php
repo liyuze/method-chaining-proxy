@@ -14,6 +14,16 @@ class MethodChainingFactory
      * @param  bool  $isClone
      * @return MethodChainingProxy<T>|T
      */
+    public static function create($value, bool $isClone = true)
+    {
+        return self::mixedMode($value, $isClone);
+    }
+
+    /**
+     * @param  T  $value
+     * @param  bool  $isClone
+     * @return MethodChainingProxy<T>|T
+     */
     public static function mixedMode($value, bool $isClone = true)
     {
         return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_MIXED, $isClone);
