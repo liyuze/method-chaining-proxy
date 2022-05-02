@@ -12,7 +12,6 @@ use Liyuze\MethodChainingProxy\Traits\HasMethodChaining;
  * @property-read  MethodChainingProxy<T>|T mixed
  * @property-read  MethodChainingProxy<T>|T tapOnce
  * @property-read  MethodChainingProxy<T>|T pipeOnce
- * todo 使用高阶代理解决代码提示问题 在高阶代码中返回MethodChainingProxy<T>|MethodChainingProxy|T  3个类型，实现代码mix
  */
 class MethodChainingProxy
 {
@@ -151,6 +150,31 @@ class MethodChainingProxy
     public function after(\Closure $closure)
     {
         $closure($this->proxyValue, $this->cloneValue, $this);
+
+        return $this;
+    }
+
+    /**
+     * @param  string  $name
+     * @param  mixed  $value
+     * @return self<T>|T
+     */
+    public function pick(string $name, &$value)
+    {
+        $value = $this->proxyValue->{$name};
+
+        return $this;
+    }
+
+    /**
+     * @param  mixed  $value
+     * @param  string  $method
+     * @param  array  $parameters
+     * @return self<T>|T
+     */
+    public function methodPick(&$value, string $method, ...$parameters)
+    {
+        $value = $this->proxyValue->{$method}(...$parameters);
 
         return $this;
     }
