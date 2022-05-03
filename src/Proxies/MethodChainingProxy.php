@@ -139,7 +139,7 @@ class MethodChainingProxy
 
     /**
      * @param  mixed  $value
-     * @param  string  $method
+     * @param  string  $method mixed|T
      * @param  array<mixed>  $parameters
      * @return self<T>
      */
