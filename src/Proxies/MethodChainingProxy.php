@@ -139,7 +139,7 @@ class MethodChainingProxy
 
     /**
      * @param  mixed  $value
-     * @param  string  $method mixed|T
+     * @param  string  $method  mixed|T
      * @param  array<mixed>  $parameters
      * @return self<T>
      */
@@ -154,7 +154,7 @@ class MethodChainingProxy
      * @param  string  $key
      * @return self<T>
      */
-    public function __get(string $key): self
+    protected function callDynamicProperty(string $key): self
     {
         if (in_array($key, ['tap', 'pipe', 'mixed'])) {
             $key = "switch{$key}Mode";
@@ -164,6 +164,27 @@ class MethodChainingProxy
 
         if (in_array($key, ['tapOnce', 'pipeOnce'])) {
             return $this->{$key}();
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return  array<string>
+     */
+    protected function dynamicPropertyList(): array
+    {
+        return ['tap', 'pipe', 'mixed', 'tapOnce', 'pipeOnce'];
+    }
+
+    /**
+     * @param  string  $key
+     * @return self<T>
+     */
+    public function __get(string $key): self
+    {
+        if (in_array($key, $this->dynamicPropertyList())) {
+            return $this->callDynamicProperty($key);
         }
 
         $this->proxyValue = is_array($this->proxyValue) ? $this->proxyValue[$key] : $this->proxyValue->{$key};
