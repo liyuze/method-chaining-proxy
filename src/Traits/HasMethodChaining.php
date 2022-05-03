@@ -3,12 +3,15 @@
 namespace Liyuze\MethodChainingProxy\Traits;
 
 use Liyuze\MethodChainingProxy\Proxies\IfChainingProxy;
+use Liyuze\MethodChainingProxy\Proxies\MethodChainingProxy;
 
 /**
- * @template T
+ * @template T of MethodChainingProxy
  */
 trait HasMethodChaining
 {
+    protected int $callMode = MethodChainingProxy::CALL_MODE_MIXED;
+
     /**
      * @param  mixed  $determineValue
      * @param  ?int  $callMode

@@ -15,7 +15,7 @@ use Liyuze\MethodChainingProxy\Traits\HasMethodChaining;
  */
 class MethodChainingProxy
 {
-    /** @phpstan-use HasMethodChaining<T> */
+    /** @phpstan-use HasMethodChaining<$this> */
     use HasMethodChaining;
 
     const CALL_MODE_PIPE = 1;
@@ -50,7 +50,7 @@ class MethodChainingProxy
     }
 
     /**
-     * @return self<T>
+     * @return $this
      */
     public function switchMixedMode(): self
     {
@@ -58,7 +58,7 @@ class MethodChainingProxy
     }
 
     /**
-     * @return self<T>
+     * @return $this
      */
     public function switchTapMode(): self
     {
@@ -66,7 +66,7 @@ class MethodChainingProxy
     }
 
     /**
-     * @return self<T>
+     * @return $this
      */
     public function switchPipeMode(): self
     {
@@ -74,7 +74,7 @@ class MethodChainingProxy
     }
 
     /**
-     * @return self<T>
+     * @return $this
      */
     public function tapOnce(): self
     {
@@ -82,7 +82,7 @@ class MethodChainingProxy
     }
 
     /**
-     * @return self<T>
+     * @return $this
      */
     public function pipeOnce(): self
     {
@@ -91,7 +91,7 @@ class MethodChainingProxy
 
     /**
      * @param  int  $mode
-     * @return self<T>
+     * @return $this
      */
     protected function setCallMode(int $mode): self
     {
@@ -102,7 +102,7 @@ class MethodChainingProxy
 
     /**
      * @param ?int  $mode
-     * @return self<T>
+     * @return $this
      */
     protected function setOnceCallMode(?int $mode): self
     {
@@ -113,7 +113,7 @@ class MethodChainingProxy
 
     /**
      * @param  \Closure  $closure
-     * @return self<T>
+     * @return $this
      */
     public function after(\Closure $closure): self
     {
@@ -128,7 +128,7 @@ class MethodChainingProxy
     /**
      * @param  string  $name
      * @param  mixed  $value
-     * @return self<T>
+     * @return $this
      */
     public function pick(string $name, mixed &$value): self
     {
@@ -141,7 +141,7 @@ class MethodChainingProxy
      * @param  mixed  $value
      * @param  string  $method  mixed|T
      * @param  array<mixed>  $parameters
-     * @return self<T>
+     * @return $this
      */
     public function methodPick(mixed &$value, string $method, ...$parameters): self
     {
@@ -152,7 +152,7 @@ class MethodChainingProxy
 
     /**
      * @param  string  $key
-     * @return self<T>
+     * @return static
      */
     protected function callDynamicProperty(string $key): self
     {
@@ -179,7 +179,7 @@ class MethodChainingProxy
 
     /**
      * @param  string  $key
-     * @return self<T>
+     * @return static
      */
     public function __get(string $key): self
     {
@@ -195,7 +195,7 @@ class MethodChainingProxy
     /**
      * @param  string  $method
      * @param  array<mixed>  $parameters
-     * @return self<T>
+     * @return static
      */
     public function __call(string $method, array $parameters): self
     {

@@ -29,7 +29,7 @@ class IfChainingProxy extends MethodChainingProxy
     }
 
     /**
-     * @return self<T>
+     * @return $this
      */
     public function else(): self
     {
@@ -48,7 +48,7 @@ class IfChainingProxy extends MethodChainingProxy
 
     /**
      * @param  string  $key
-     * @return self<T>
+     * @return static
      */
     protected function callDynamicProperty(string $key): self
     {
@@ -69,7 +69,7 @@ class IfChainingProxy extends MethodChainingProxy
 
     /**
      * @param  string  $key
-     * @return self<T>
+     * @return static
      */
     public function __get(string $key): self
     {
@@ -87,7 +87,7 @@ class IfChainingProxy extends MethodChainingProxy
     /**
      * @param  string  $method
      * @param  array<mixed>  $parameters
-     * @return self<T>
+     * @return static
      */
     public function __call(string $method, array $parameters): self
     {
