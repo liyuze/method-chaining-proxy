@@ -27,42 +27,18 @@ class MethodChainingProxy
      */
     protected mixed $proxyValue;
 
-    /**
-     * @var T
-     */
-    protected mixed $cloneValue;
-
     protected int $callMode = self::CALL_MODE_MIXED;
 
     protected ?int $onceCallMode = null;
 
-    protected bool $isClone = true;
-
     /**
      * @param  T  $target
      * @param  int  $callMode
-     * @param  bool  $isClone
      */
-    public function __construct($target, int $callMode = self::CALL_MODE_MIXED, bool $isClone = true)
+    public function __construct(mixed $target, int $callMode = self::CALL_MODE_MIXED)
     {
         $this->proxyValue = $target;
-        $this->cloneValue = $this->tryCloneValue($target, $isClone);
-        $this->isClone = $isClone;
         $this->callMode = $callMode;
-    }
-
-    /**
-     * @param  T  $target
-     * @param  bool  $isClone
-     * @return T
-     */
-    protected function tryCloneValue(mixed $target, bool $isClone)
-    {
-        if ($isClone && is_object($target) && (! (method_exists($target, '__clone') && (! is_callable([$target, '__clone']))))) {
-            return clone $target;
-        }
-
-        return $target;
     }
 
     /**
@@ -71,14 +47,6 @@ class MethodChainingProxy
     public function popValue(): mixed
     {
         return $this->proxyValue;
-    }
-
-    /**
-     * @return T
-     */
-    public function popCloneValue(): mixed
-    {
-        return $this->cloneValue;
     }
 
     /**
@@ -149,7 +117,10 @@ class MethodChainingProxy
      */
     public function after(\Closure $closure): self
     {
-        $closure($this->proxyValue, $this->cloneValue, $this);
+        $result = $closure($this->proxyValue);
+        if ($result !== null) {
+            $this->proxyValue = $result;
+        }
 
         return $this;
     }

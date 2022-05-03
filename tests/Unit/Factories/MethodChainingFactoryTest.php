@@ -15,11 +15,6 @@ class MethodChainingFactoryTest extends TestCase
         $proxy = MethodChainingFactory::create($cat);
         $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED);
         self::assertEquals($proxy, $proxy2);
-
-
-        $proxy3 = MethodChainingFactory::create($cat, false);
-        $proxy4 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED, false);
-        self::assertEquals($proxy3, $proxy4);
     }
 
     public function test_mixed_mode(): void
@@ -28,11 +23,6 @@ class MethodChainingFactoryTest extends TestCase
         $proxy = MethodChainingFactory::mixedMode($cat);
         $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED);
         self::assertEquals($proxy, $proxy2);
-
-
-        $proxy3 = MethodChainingFactory::mixedMode($cat, false);
-        $proxy4 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED, false);
-        self::assertEquals($proxy3, $proxy4);
     }
 
     public function test_pipe_mode(): void
@@ -41,11 +31,6 @@ class MethodChainingFactoryTest extends TestCase
         $proxy = MethodChainingFactory::pipeMode($cat);
         $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_PIPE);
         self::assertEquals($proxy, $proxy2);
-
-
-        $proxy3 = MethodChainingFactory::pipeMode($cat, false);
-        $proxy4 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_PIPE, false);
-        self::assertEquals($proxy3, $proxy4);
     }
 
     public function test_tap_mode(): void
@@ -54,10 +39,5 @@ class MethodChainingFactoryTest extends TestCase
         $proxy = MethodChainingFactory::tapMode($cat);
         $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_TAP);
         self::assertEquals($proxy, $proxy2);
-
-
-        $proxy3 = MethodChainingFactory::tapMode($cat, false);
-        $proxy4 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_TAP, false);
-        self::assertEquals($proxy3, $proxy4);
     }
 }

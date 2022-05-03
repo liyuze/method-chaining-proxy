@@ -4,48 +4,46 @@ namespace Liyuze\MethodChainingProxy\Factories;
 
 use Liyuze\MethodChainingProxy\Proxies\MethodChainingProxy;
 
-/**
- * @template T
- */
 class MethodChainingFactory
 {
     /**
+     * @template T
      * @param  T  $value
-     * @param  bool  $isClone
      * @return MethodChainingProxy<T>
      */
-    public static function create(mixed $value, bool $isClone = true): MethodChainingProxy
+    public static function create(mixed $value): MethodChainingProxy
     {
-        return self::mixedMode($value, $isClone);
+        return self::mixedMode($value);
     }
 
     /**
+     * @template T
      * @param  T  $value
-     * @param  bool  $isClone
      * @return MethodChainingProxy<T>
      */
-    public static function mixedMode(mixed $value, bool $isClone = true): MethodChainingProxy
+    public static function mixedMode(mixed $value): MethodChainingProxy
     {
-        return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_MIXED, $isClone);
+        return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_MIXED);
     }
 
     /**
+     * @template T
      * @param  T  $value
-     * @param  bool  $isClone
      * @return MethodChainingProxy<T>
      */
-    public static function pipeMode(mixed $value, bool $isClone = true): MethodChainingProxy
+    public static function pipeMode(mixed $value): MethodChainingProxy
     {
-        return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_PIPE, $isClone);
+        return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_PIPE);
     }
 
     /**
+     * @template T
      * @param  T  $value
-     * @param  bool  $isClone
      * @return MethodChainingProxy<T>
+     * @phpstan-return MethodChainingProxy<T>
      */
-    public static function tapMode(mixed $value, bool $isClone = true): MethodChainingProxy
+    public static function tapMode(mixed $value): MethodChainingProxy
     {
-        return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_TAP, $isClone);
+        return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_TAP);
     }
 }

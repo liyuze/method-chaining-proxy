@@ -161,7 +161,7 @@ $cat->getName();    //Tony
 
 通过调用 `after()` 方法传入一个闭包来执行自定义的代码功能，它也支持链式调用。
 
-传入的闭包不需要有返回值，闭包的第一个参数是当前代理器 `代理值`，第二个参数是代理器初始时 `备份值`，第三个参数是 `代理器本身`。
+闭包的第一个参数是当前代理器 `代理值`，如果闭包有返回值且不为null时将会更新代理器的代理值。
 
 ```php
 $cat = new Cat('Tom', 5);
@@ -175,17 +175,12 @@ $proxy = $proxy->setAge(9)->setName('Tony')->after(
         }
     })->after(...);
     
-$proxy->popValue()->getAge();    //6
+$proxy->popValue()->getAge();   // 10
+
+
+$number = MethodChainingFactory::creat($cat)->after(fn () => 3)->popValue();
+// 3
 ```
-
-
-### 其他
-
-#### 代理值备份
-
-当创建方法链代理器时，代理会默认备份一下传入的代理值，以供在 `after()` 方法中使用，可以通过 `popCloneValue` 方法来获取当时的备份值。
-
-> 如果代理值为对象且没有对 `__clone()` 方法限制的访问的话将使用 clone 方式进行拷贝。
 
 ### 示例类
 

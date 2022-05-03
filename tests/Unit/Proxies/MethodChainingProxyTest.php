@@ -5,7 +5,6 @@ namespace Liyuze\MethodChainingProxy\Tests\Unit\Proxies;
 use Liyuze\MethodChainingProxy\Factories\MethodChainingFactory;
 use Liyuze\MethodChainingProxy\Proxies\MethodChainingProxy;
 use Liyuze\MethodChainingProxy\Tests\Stubs\Cat;
-use Liyuze\MethodChainingProxy\Tests\Stubs\SingletonClass;
 use Liyuze\MethodChainingProxy\Tests\TestCase;
 
 class MethodChainingProxyTest extends TestCase
@@ -55,24 +54,6 @@ class MethodChainingProxyTest extends TestCase
         $this->assertEquals(2, (new MethodChainingProxy(new Cat('a', 1), MethodChainingProxy::CALL_MODE_PIPE))->mixed->setAge(2)->getAge()->popValue());
     }
 
-    public function test_clone(): void
-    {
-        $cat = new Cat('a', 1);
-        $proxy = new MethodChainingProxy($cat);
-        $this->assertSame($cat, $proxy->popValue());
-        $this->assertNotSame($cat, $proxy->popCloneValue());
-
-        $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED, false);
-        $this->assertSame($cat, $proxy2->popValue());
-        $this->assertSame($cat, $proxy2->popCloneValue());
-
-
-        $singleton = SingletonClass::getInstance();
-        $singletonProxy = new MethodChainingProxy($singleton);
-        $this->assertSame($singleton, $singletonProxy->popValue());
-        $this->assertSame($singleton, $singletonProxy->popCloneValue());
-    }
-
     public function test_after(): void
     {
         $cat = new Cat('a', 1);
@@ -82,6 +63,14 @@ class MethodChainingProxyTest extends TestCase
         })->getName()->popValue();
 
         $this->assertEquals('b', $name);
+
+        //return value
+        $proxy = new MethodChainingProxy($cat);
+        $number = $proxy->after(function (Cat $cat) {
+            return 2;
+        })->popValue();
+
+        $this->assertEquals(2, $number);
     }
 
     public function test_tap_once_call_mode(): void
@@ -122,9 +111,7 @@ class MethodChainingProxyTest extends TestCase
         $proxy = MethodChainingFactory::tapMode($cat);
         $name = null;
 
-//        self::assertSame($proxy, $proxy->methodPick($name, 'setName', 'b'));
-//        self::assertEquals('b', $proxy->popValue()->getName());
-        self::assertInstanceOf(Cat::class, $proxy->popValue());
-        self::assertEquals('a', $proxy->popValue()->getName());
+        self::assertSame($proxy, $proxy->methodPick($name, 'setName', 'b'));
+        self::assertEquals('b', $proxy->popValue()->getName());
     }
 }
