@@ -9,7 +9,7 @@ use Liyuze\MethodChainingProxy\Tests\TestCase;
 
 class MethodChainingFactoryTest extends TestCase
 {
-    public function test_default()
+    public function test_default(): void
     {
         $cat = new Cat('a', 1);
         $proxy = MethodChainingFactory::create($cat);
@@ -22,7 +22,7 @@ class MethodChainingFactoryTest extends TestCase
         self::assertEquals($proxy3, $proxy4);
     }
 
-    public function test_mixed_mode()
+    public function test_mixed_mode(): void
     {
         $cat = new Cat('a', 1);
         $proxy = MethodChainingFactory::mixedMode($cat);
@@ -35,7 +35,7 @@ class MethodChainingFactoryTest extends TestCase
         self::assertEquals($proxy3, $proxy4);
     }
 
-    public function test_pipe_mode()
+    public function test_pipe_mode(): void
     {
         $cat = new Cat('a', 1);
         $proxy = MethodChainingFactory::pipeMode($cat);
@@ -48,7 +48,7 @@ class MethodChainingFactoryTest extends TestCase
         self::assertEquals($proxy3, $proxy4);
     }
 
-    public function test_tap_mode()
+    public function test_tap_mode(): void
     {
         $cat = new Cat('a', 1);
         $proxy = MethodChainingFactory::tapMode($cat);

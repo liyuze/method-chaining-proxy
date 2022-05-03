@@ -5,13 +5,13 @@ namespace Liyuze\MethodChainingProxy\Tests\Stubs;
 class Cat
 {
     /**
-     * @var string|null
+     * @var string
      */
-    public ?string $name;
+    public string $name;
     /**
-     * @var int|null
+     * @var int
      */
-    public ?int $age;
+    public int $age;
 
     /**
      * @param  string  $name
@@ -24,9 +24,9 @@ class Cat
     }
 
     /**
-     * @return string|null
+     * @return string
      */
-    public function getName()
+    public function getName(): string
     {
         return $this->name;
     }
@@ -35,7 +35,7 @@ class Cat
      * @param  string  $name
      * @return $this
      */
-    public function setName(string $name)
+    public function setName(string $name): self
     {
         $this->name = $name;
 
@@ -43,9 +43,9 @@ class Cat
     }
 
     /**
-     * @return int|null
+     * @return int
      */
-    public function getAge()
+    public function getAge(): int
     {
         return $this->age;
     }
@@ -53,7 +53,7 @@ class Cat
     /**
      * @param  int  $age
      */
-    public function setAge(int $age)
+    public function setAge(int $age): void
     {
         $this->age = $age;
     }
@@ -62,7 +62,7 @@ class Cat
      * @param  \Closure  $closure
      * @return $this
      */
-    public function do(\Closure $closure)
+    public function do(\Closure $closure): self
     {
         $closure();
 

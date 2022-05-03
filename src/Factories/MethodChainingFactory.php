@@ -12,9 +12,9 @@ class MethodChainingFactory
     /**
      * @param  T  $value
      * @param  bool  $isClone
-     * @return MethodChainingProxy<T>|T
+     * @return MethodChainingProxy<T>
      */
-    public static function create($value, bool $isClone = true)
+    public static function create(mixed $value, bool $isClone = true): MethodChainingProxy
     {
         return self::mixedMode($value, $isClone);
     }
@@ -22,9 +22,9 @@ class MethodChainingFactory
     /**
      * @param  T  $value
      * @param  bool  $isClone
-     * @return MethodChainingProxy<T>|T
+     * @return MethodChainingProxy<T>
      */
-    public static function mixedMode($value, bool $isClone = true)
+    public static function mixedMode(mixed $value, bool $isClone = true): MethodChainingProxy
     {
         return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_MIXED, $isClone);
     }
@@ -32,9 +32,9 @@ class MethodChainingFactory
     /**
      * @param  T  $value
      * @param  bool  $isClone
-     * @return MethodChainingProxy<T>|T
+     * @return MethodChainingProxy<T>
      */
-    public static function pipeMode($value, bool $isClone = true)
+    public static function pipeMode(mixed $value, bool $isClone = true): MethodChainingProxy
     {
         return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_PIPE, $isClone);
     }
@@ -42,9 +42,9 @@ class MethodChainingFactory
     /**
      * @param  T  $value
      * @param  bool  $isClone
-     * @return MethodChainingProxy<T>|T
+     * @return MethodChainingProxy<T>
      */
-    public static function tapMode($value, bool $isClone = true)
+    public static function tapMode(mixed $value, bool $isClone = true): MethodChainingProxy
     {
         return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_TAP, $isClone);
     }

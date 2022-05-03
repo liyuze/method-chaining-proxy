@@ -8,7 +8,7 @@ class SingletonClass
     {
     }
 
-    public static function getInstance()
+    public static function getInstance(): self
     {
         return new self();
     }
