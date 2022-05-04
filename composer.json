@@ -2,8 +2,9 @@
     "name": "liyuze/method-chaining-proxy",
     "description": "通过代理方式实现方法链式调用，消除控制语句对链式的影响。",
     "keywords": [
-        "liyuze",
-        "method-chaining-proxy"
+        "php",
+        "method chaining",
+        "method chaining proxy"
     ],
     "homepage": "https://github.com/liyuze/method-chaining-proxy",
     "license": "MIT",
