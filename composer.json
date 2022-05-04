@@ -1,0 +1,46 @@
+{
+    "name": "liyuze/method-chaining-proxy",
+    "description": "通过代理方式实现方法链式调用，消除控制语句对链式的影响。",
+    "keywords": [
+        "php",
+        "method chaining",
+        "method chaining proxy"
+    ],
+    "homepage": "https://github.com/liyuze/method-chaining-proxy",
+    "license": "MIT",
+    "type": "library",
+    "authors": [
+        {
+            "name": "Yuze Li",
+            "email": "290315384@qq.com",
+            "role": "Developer"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "^9.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "Liyuze\\MethodChainingProxy\\": "src"
+        },
+        "files": [
+            "src/helpers.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Liyuze\\MethodChainingProxy\\Tests\\": "tests"
+        }
+    },
+    "scripts": {
+        "test": "vendor/bin/phpunit",
+        "test-coverage": "vendor/bin/phpunit --coverage-html coverage"
+
+    },
+    "config": {
+        "sort-packages": true
+    }
+}
