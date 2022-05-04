@@ -7,9 +7,9 @@ use Liyuze\MethodChainingProxy\Traits\HasMethodChaining;
 /**
  * @template T
  * @mixin T
- * @property-read  MethodChainingProxy<T>|T $tap
- * @property-read  MethodChainingProxy<T>|T $pipe
- * @property-read  MethodChainingProxy<T>|T $mixed
+ * @property-read  MethodChainingProxy<T>|T $tapMode
+ * @property-read  MethodChainingProxy<T>|T $pipeMode
+ * @property-read  MethodChainingProxy<T>|T $mixedMode
  * @property-read  MethodChainingProxy<T>|T $tapOnce
  * @property-read  MethodChainingProxy<T>|T $pipeOnce
  */
@@ -52,7 +52,7 @@ class MethodChainingProxy
     /**
      * @return $this
      */
-    public function switchMixedMode(): self
+    public function switchToMixedMode(): self
     {
         return $this->setCallMode(self::CALL_MODE_MIXED);
     }
@@ -60,7 +60,7 @@ class MethodChainingProxy
     /**
      * @return $this
      */
-    public function switchTapMode(): self
+    public function switchToTapMode(): self
     {
         return $this->setCallMode(self::CALL_MODE_TAP);
     }
@@ -68,7 +68,7 @@ class MethodChainingProxy
     /**
      * @return $this
      */
-    public function switchPipeMode(): self
+    public function switchToPipeMode(): self
     {
         return $this->setCallMode(self::CALL_MODE_PIPE);
     }
@@ -156,8 +156,8 @@ class MethodChainingProxy
      */
     protected function callDynamicProperty(string $key): self
     {
-        if (in_array($key, ['tap', 'pipe', 'mixed'])) {
-            $key = "switch{$key}Mode";
+        if (in_array($key, ['tapMode', 'pipeMode', 'mixedMode'])) {
+            $key = "switchTo{$key}";
 
             return $this->{$key}();
         }
@@ -174,7 +174,7 @@ class MethodChainingProxy
      */
     protected function dynamicPropertyList(): array
     {
-        return ['tap', 'pipe', 'mixed', 'tapOnce', 'pipeOnce'];
+        return ['tapMode', 'pipeMode', 'mixedMode', 'tapOnce', 'pipeOnce'];
     }
 
     /**

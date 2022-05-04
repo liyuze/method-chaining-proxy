@@ -13,7 +13,7 @@ class MethodChainingFactory
      */
     public static function create(mixed $value): MethodChainingProxy
     {
-        return self::mixedMode($value);
+        return self::mixed($value);
     }
 
     /**
@@ -21,7 +21,7 @@ class MethodChainingFactory
      * @param  T  $value
      * @return MethodChainingProxy<T>
      */
-    public static function mixedMode(mixed $value): MethodChainingProxy
+    public static function mixed(mixed $value): MethodChainingProxy
     {
         return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_MIXED);
     }
@@ -31,7 +31,7 @@ class MethodChainingFactory
      * @param  T  $value
      * @return MethodChainingProxy<T>
      */
-    public static function pipeMode(mixed $value): MethodChainingProxy
+    public static function pipe(mixed $value): MethodChainingProxy
     {
         return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_PIPE);
     }
@@ -42,7 +42,7 @@ class MethodChainingFactory
      * @return MethodChainingProxy<T>
      * @phpstan-return MethodChainingProxy<T>
      */
-    public static function tapMode(mixed $value): MethodChainingProxy
+    public static function tap(mixed $value): MethodChainingProxy
     {
         return new MethodChainingProxy($value, MethodChainingProxy::CALL_MODE_TAP);
     }

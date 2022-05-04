@@ -17,26 +17,26 @@ class MethodChainingFactoryTest extends TestCase
         self::assertEquals($proxy, $proxy2);
     }
 
-    public function test_mixed_mode(): void
+    public function test_mixed(): void
     {
         $cat = new Cat('a', 1);
-        $proxy = MethodChainingFactory::mixedMode($cat);
+        $proxy = MethodChainingFactory::mixed($cat);
         $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_MIXED);
         self::assertEquals($proxy, $proxy2);
     }
 
-    public function test_pipe_mode(): void
+    public function test_pipe(): void
     {
         $cat = new Cat('a', 1);
-        $proxy = MethodChainingFactory::pipeMode($cat);
+        $proxy = MethodChainingFactory::pipe($cat);
         $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_PIPE);
         self::assertEquals($proxy, $proxy2);
     }
 
-    public function test_tap_mode(): void
+    public function test_tap(): void
     {
         $cat = new Cat('a', 1);
-        $proxy = MethodChainingFactory::tapMode($cat);
+        $proxy = MethodChainingFactory::tap($cat);
         $proxy2 = new MethodChainingProxy($cat, MethodChainingProxy::CALL_MODE_TAP);
         self::assertEquals($proxy, $proxy2);
     }

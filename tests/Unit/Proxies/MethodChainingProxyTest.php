@@ -42,16 +42,16 @@ class MethodChainingProxyTest extends TestCase
     public function test_switch_mode_for_manually(): void
     {
 
-        $value1 = (new MethodChainingProxy(new Cat('a', 1)))->tap->getName()->popValue();
+        $value1 = (new MethodChainingProxy(new Cat('a', 1)))->tapMode->getName()->popValue();
         $this->assertEquals('a', (new MethodChainingProxy(new Cat('a', 1)))->getName()->popValue());
-        $this->assertInstanceOf(Cat::class, (new MethodChainingProxy(new Cat('a', 1)))->tap->getName()->popValue());
+        $this->assertInstanceOf(Cat::class, (new MethodChainingProxy(new Cat('a', 1)))->tapMode->getName()->popValue());
 
 
         $this->assertInstanceOf(Cat::class, (new MethodChainingProxy(new Cat('a', 1)))->setAge(2)->popValue());
-        $this->assertNull((new MethodChainingProxy(new Cat('a', 1)))->pipe->setAge(2)->popValue());
+        $this->assertNull((new MethodChainingProxy(new Cat('a', 1)))->pipeMode->setAge(2)->popValue());
 
-        $this->assertEquals(2, (new MethodChainingProxy(new Cat('a', 1)))->tap->setAge(2)->pipe->getAge()->popValue());
-        $this->assertEquals(2, (new MethodChainingProxy(new Cat('a', 1), MethodChainingProxy::CALL_MODE_PIPE))->mixed->setAge(2)->getAge()->popValue());
+        $this->assertEquals(2, (new MethodChainingProxy(new Cat('a', 1)))->tapMode->setAge(2)->pipeMode->getAge()->popValue());
+        $this->assertEquals(2, (new MethodChainingProxy(new Cat('a', 1), MethodChainingProxy::CALL_MODE_PIPE))->mixedMode->setAge(2)->getAge()->popValue());
     }
 
     public function test_after(): void
@@ -76,10 +76,10 @@ class MethodChainingProxyTest extends TestCase
     public function test_tap_once_call_mode(): void
     {
         $cat = new Cat('a', 1);
-        $proxy = MethodChainingFactory::pipeMode($cat);
+        $proxy = MethodChainingFactory::pipe($cat);
         $proxy->setAge(2);
         self::assertNull($proxy->popValue());
-        $proxy2 = MethodChainingFactory::pipeMode($cat);
+        $proxy2 = MethodChainingFactory::pipe($cat);
         $proxy2->tapOnce()->setAge(2);
         self::assertSame($cat, $proxy2->popValue());
     }
@@ -87,10 +87,10 @@ class MethodChainingProxyTest extends TestCase
     public function test_pipe_once_call_mode(): void
     {
         $cat = new Cat('a', 1);
-        $proxy = MethodChainingFactory::tapMode($cat);
+        $proxy = MethodChainingFactory::tap($cat);
         $proxy->getAge();
         self::assertEquals($cat, $proxy->popValue());
-        $proxy2 = MethodChainingFactory::tapMode($cat);
+        $proxy2 = MethodChainingFactory::tap($cat);
         $proxy2->pipeOnce()->getAge();
         self::assertSame(1, $proxy2->popValue());
     }
@@ -98,7 +98,7 @@ class MethodChainingProxyTest extends TestCase
     public function test_pick(): void
     {
         $cat = new Cat('a', 1);
-        $proxy = MethodChainingFactory::tapMode($cat);
+        $proxy = MethodChainingFactory::tap($cat);
         $name = null;
 
         self::assertSame($proxy, $proxy->pick('name', $name));
@@ -108,7 +108,7 @@ class MethodChainingProxyTest extends TestCase
     public function test_method_pick(): void
     {
         $cat = new Cat('a', 1);
-        $proxy = MethodChainingFactory::tapMode($cat);
+        $proxy = MethodChainingFactory::tap($cat);
         $name = null;
 
         self::assertSame($proxy, $proxy->methodPick($name, 'setName', 'b'));

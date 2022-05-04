@@ -8,7 +8,7 @@ use Liyuze\MethodChainingProxy\Traits\HasMethodChaining;
  * @template T
  * @mixin T
  * @template-extends MethodChainingProxy<T>
- * @property-read IfChainingProxy<T> $else
+ * @property-read IfChainingProxy<T> $elseChaining
  */
 class IfChainingProxy extends MethodChainingProxy
 {
@@ -31,7 +31,7 @@ class IfChainingProxy extends MethodChainingProxy
     /**
      * @return $this
      */
-    public function else(): self
+    public function elseChaining(): self
     {
         $this->determineValue = ! $this->determineValue;
 
@@ -41,7 +41,15 @@ class IfChainingProxy extends MethodChainingProxy
     /**
      * @return T|mixed
      */
-    public function endIf(): mixed
+    public function endIfChaining(): mixed
+    {
+        return $this->popValue();
+    }
+
+    /**
+     * @return T|mixed
+     */
+    public function endUnlessChaining(): mixed
     {
         return $this->popValue();
     }
@@ -52,7 +60,7 @@ class IfChainingProxy extends MethodChainingProxy
      */
     protected function callDynamicProperty(string $key): self
     {
-        if ($key == 'else') {
+        if ($key == 'elseChaining') {
             return $this->{$key}();
         }
 
@@ -64,7 +72,7 @@ class IfChainingProxy extends MethodChainingProxy
      */
     protected function dynamicPropertyList(): array
     {
-        return ['else', ...parent::dynamicPropertyList()];
+        return ['elseChaining', ...parent::dynamicPropertyList()];
     }
 
     /**

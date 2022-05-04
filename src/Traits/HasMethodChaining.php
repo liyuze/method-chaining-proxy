@@ -10,14 +10,12 @@ use Liyuze\MethodChainingProxy\Proxies\MethodChainingProxy;
  */
 trait HasMethodChaining
 {
-    protected int $callMode = MethodChainingProxy::CALL_MODE_MIXED;
-
     /**
      * @param  mixed  $determineValue
      * @param  ?int  $callMode
      * @return IfChainingProxy<T>
      */
-    public function if(mixed $determineValue, ?int $callMode = null): IfChainingProxy
+    public function ifChaining(mixed $determineValue, ?int $callMode = null): IfChainingProxy
     {
         return new IfChainingProxy($this, $determineValue, $callMode ?? $this->callMode);
     }
@@ -27,7 +25,7 @@ trait HasMethodChaining
      * @param  ?int  $callMode
      * @return IfChainingProxy<T>
      */
-    public function unless(mixed $determineValue, ?int $callMode = null): IfChainingProxy
+    public function unlessChaining(mixed $determineValue, ?int $callMode = null): IfChainingProxy
     {
         $determineValue = function () use ($determineValue) {
             return ! (bool) parse_value($determineValue);
