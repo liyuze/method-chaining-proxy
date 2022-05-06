@@ -2,7 +2,7 @@
 
 [![Latest Version on Packagist](https://img.shields.io/packagist/v/liyuze/method-chaining-proxy.svg?style=flat-square)](https://packagist.org/packages/liyuze/method-chaining-proxy)
 [![Total Downloads](https://img.shields.io/packagist/dt/liyuze/method-chaining-proxy.svg?style=flat-square)](https://packagist.org/packages/liyuze/method-chaining-proxy)
-![GitHub Actions](https://github.com/liyuze/method-chaining-proxy/actions/workflows/main.yml/badge.svg)
+[![PHP Composer](https://github.com/liyuze/method-chaining-proxy/actions/workflows/php.yml/badge.svg?branch=main&event=push)](https://github.com/liyuze/method-chaining-proxy/actions/workflows/php.yml)
 
 流式接口（fluent interface）是软件工程中面向对象API的一种实现方式，以提供更为可读的源代码。方法链式调用（method chaining）是流式接口的一种实现。 
 在 PHP 中的实现方式是在类的方法返回值中返回 `$this` 或 `new static()` 来实现方法链式调用。
