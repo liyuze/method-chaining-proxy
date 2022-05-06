@@ -18,9 +18,9 @@ class MethodChainingProxy
     /** @phpstan-use HasMethodChaining<$this> */
     use HasMethodChaining;
 
-    const CALL_MODE_PIPE = 1;
-    const CALL_MODE_TAP = 2;
-    const CALL_MODE_MIXED = 3;
+    public const CALL_MODE_PIPE = 1;
+    public const CALL_MODE_TAP = 2;
+    public const CALL_MODE_MIXED = 3;
 
     /**
      * @var T

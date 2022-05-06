@@ -2,8 +2,6 @@
 
 namespace Liyuze\MethodChainingProxy\Proxies;
 
-use Liyuze\MethodChainingProxy\Traits\HasMethodChaining;
-
 /**
  * @template T
  * @mixin T

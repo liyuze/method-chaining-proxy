@@ -4,6 +4,7 @@ namespace Liyuze\MethodChainingProxy\Tests\Unit\Factories;
 
 use Liyuze\MethodChainingProxy\Factories\ControlChainingFactory;
 use Liyuze\MethodChainingProxy\Proxies\IfChainingProxy;
+use Liyuze\MethodChainingProxy\Proxies\SwitchChainingProxy;
 use Liyuze\MethodChainingProxy\Tests\Stubs\Cat;
 use Liyuze\MethodChainingProxy\Tests\TestCase;
 
@@ -19,5 +20,11 @@ class ControlChainingFactoryTest extends TestCase
     {
         $value = new Cat('a', 1);
         self::assertEquals(ControlChainingFactory::unless($value, true), new IfChainingProxy($value, false));
+    }
+
+    public function test_switch(): void
+    {
+        $value = new Cat('a', 1);
+        self::assertEquals(ControlChainingFactory::switch($value, true), new SwitchChainingProxy($value, true));
     }
 }

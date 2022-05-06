@@ -41,7 +41,6 @@ class MethodChainingProxyTest extends TestCase
 
     public function test_switch_mode_for_manually(): void
     {
-
         $value1 = (new MethodChainingProxy(new Cat('a', 1)))->tapMode->getName()->popValue();
         $this->assertEquals('a', (new MethodChainingProxy(new Cat('a', 1)))->getName()->popValue());
         $this->assertInstanceOf(Cat::class, (new MethodChainingProxy(new Cat('a', 1)))->tapMode->getName()->popValue());
