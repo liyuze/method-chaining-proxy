@@ -7,11 +7,6 @@ use Liyuze\MethodChainingProxy\Traits\HasMethodChaining;
 /**
  * @template T
  * @mixin T
- * @property-read  MethodChainingProxy<T>|T $tapMode
- * @property-read  MethodChainingProxy<T>|T $pipeMode
- * @property-read  MethodChainingProxy<T>|T $mixedMode
- * @property-read  MethodChainingProxy<T>|T $tapOnce
- * @property-read  MethodChainingProxy<T>|T $pipeOnce
  */
 class MethodChainingProxy
 {
@@ -154,39 +149,8 @@ class MethodChainingProxy
      * @param  string  $key
      * @return $this
      */
-    protected function callDynamicProperty(string $key): self
-    {
-        if (in_array($key, ['tapMode', 'pipeMode', 'mixedMode'])) {
-            $key = "switchTo{$key}";
-
-            return $this->{$key}();
-        }
-
-        if (in_array($key, ['tapOnce', 'pipeOnce'])) {
-            return $this->{$key}();
-        }
-
-        return $this;
-    }
-
-    /**
-     * @return  array<string>
-     */
-    protected function dynamicPropertyList(): array
-    {
-        return ['tapMode', 'pipeMode', 'mixedMode', 'tapOnce', 'pipeOnce'];
-    }
-
-    /**
-     * @param  string  $key
-     * @return $this
-     */
     public function __get(string $key): self
     {
-        if (in_array($key, $this->dynamicPropertyList())) {
-            return $this->callDynamicProperty($key);
-        }
-
         $this->proxyValue = is_array($this->proxyValue) ? $this->proxyValue[$key] : $this->proxyValue->{$key};
 
         return $this;

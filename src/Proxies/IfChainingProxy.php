@@ -6,7 +6,6 @@ namespace Liyuze\MethodChainingProxy\Proxies;
  * @template T
  * @mixin T
  * @template-extends MethodChainingProxy<T>
- * @property-read IfChainingProxy<T> $elseChaining
  */
 class IfChainingProxy extends MethodChainingProxy
 {
@@ -56,33 +55,8 @@ class IfChainingProxy extends MethodChainingProxy
      * @param  string  $key
      * @return $this
      */
-    protected function callDynamicProperty(string $key): self
-    {
-        if ($key == 'elseChaining') {
-            return $this->{$key}();
-        }
-
-        return parent::callDynamicProperty($key);
-    }
-
-    /**
-     * @return  array<string>
-     */
-    protected function dynamicPropertyList(): array
-    {
-        return ['elseChaining', ...parent::dynamicPropertyList()];
-    }
-
-    /**
-     * @param  string  $key
-     * @return $this
-     */
     public function __get(string $key): self
     {
-        if (in_array($key, $this->dynamicPropertyList())) {
-            return $this->callDynamicProperty($key);
-        }
-
         if ($this->determineValue) {
             return parent::__get($key);
         }

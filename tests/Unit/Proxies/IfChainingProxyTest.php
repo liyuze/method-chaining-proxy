@@ -49,10 +49,4 @@ class IfChainingProxyTest extends TestCase
 
         $this->assertEquals('c', $name);
     }
-
-    public function test_dynamic_property(): void
-    {
-        $this->assertEquals('b', (new IfChainingProxy((new Cat('a', 1)), true))->setName('b')->elseChaining->setName('c')->popValue()->getName());
-        $this->assertEquals('c', (new IfChainingProxy((new Cat('a', 1)), false))->setName('b')->elseChaining->setName('c')->popValue()->getName());
-    }
 }
