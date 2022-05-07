@@ -36,7 +36,7 @@ class IfChainingProxy extends MethodChainingProxy
     }
 
     /**
-     * @return T|mixed
+     * @return T
      */
     public function endIfChaining(): mixed
     {
@@ -44,7 +44,7 @@ class IfChainingProxy extends MethodChainingProxy
     }
 
     /**
-     * @return T|mixed
+     * @return T
      */
     public function endUnlessChaining(): mixed
     {
