@@ -8,7 +8,6 @@ use Liyuze\MethodChainingProxy\Traits\CanBreak;
  * @template T
  * @mixin T
  * @template-extends MethodChainingProxy<T>
- * @property-read SwitchChainingProxy<T>|T $breakChaining
  */
 class SwitchChainingProxy extends MethodChainingProxy
 {
@@ -16,20 +15,15 @@ class SwitchChainingProxy extends MethodChainingProxy
         breakChaining as _breakChaining;
     }
 
-    /**
-     * @var mixed
-     */
     protected mixed $switchValue;
 
-    /**
-     * @var bool
-     */
-    protected bool $isStrict;
+    protected bool $isStrict = false;
 
-    /**
-     * @var bool
-     */
-    protected bool $isMatching;
+    protected bool $isMatching = false;
+
+    protected bool $isMatched = false;
+
+    private bool $isBroke = false;
 
     /**
      * @param  T  $value
@@ -51,6 +45,22 @@ class SwitchChainingProxy extends MethodChainingProxy
     public function caseChaining(mixed $value): self
     {
         $this->isMatching = (! $this->isBreaking) && ($this->isStrict ? $this->switchValue === $value : $this->switchValue == $value);
+        if ($this->isMatching) {
+            $this->isMatched = true;
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return $this
+     */
+    public function defaultChaining(): self
+    {
+        $this->isMatching = true;
+        if ($this->isMatched && $this->isBroke) {
+            $this->isMatching = false;
+        }
 
         return $this;
     }
@@ -61,8 +71,10 @@ class SwitchChainingProxy extends MethodChainingProxy
      */
     public function breakChaining(int $level = 1): self
     {
+        $level = max($level, 1);
         if ($this->isMatching) {
             $this->_breakChaining($level);
+            $this->isBroke = true;
         }
 
         return $this;
@@ -82,10 +94,6 @@ class SwitchChainingProxy extends MethodChainingProxy
      */
     public function __get(string $key): self
     {
-        if ($key == 'breakChaining') {
-            return $this->breakChaining();
-        }
-
         if ($this->isMatching) {
             return parent::__get($key);
         }

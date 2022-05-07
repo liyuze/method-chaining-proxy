@@ -224,6 +224,9 @@ $cat->getName();   //Alan
 $cat->getAge();   //10
 ```
 
+通过 `breakChaining()` 中断以后代码的执行。
+> `breakChaining(2)` 方法支持传入要中断的循环层级数量，中断效果只针对 `MethodChainingProxy` 类嵌套有效，不兼容原生的控制语句。
+
 ```php
  $switchProxy = ControlChainingFactory::switch(new Cat('Tom', 5), 2);
 // 或 $switchProxy = new SwitchChainingProxy(new Cat('Tom', 5), 2);
@@ -232,6 +235,20 @@ $cat = $switchProxy
     ->caseChaining(2)->setName('Alan')
     ->caseChaining(2)->setAge(10)->breakChaining()
     ->caseChaining(2)->setName('Andy')
+    ->endSwitchChaining();
+    
+$cat->getName();   //Alan
+$cat->getAge();   //10
+```
+
+通过 `defaultChaining() 指定默认要执行的代码。
+
+```php
+ $switchProxy = ControlChainingFactory::switch(new Cat('Tom', 5), 2);
+// 或 $switchProxy = new SwitchChainingProxy(new Cat('Tom', 5), 2);
+$cat = $switchProxy
+    ->caseChaining(1)->setName('Tony')->breakChaining()
+    ->defaultChaining()->setName('Alan')->setAge(10)
     ->endSwitchChaining();
     
 $cat->getName();   //Alan

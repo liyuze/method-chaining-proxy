@@ -135,4 +135,17 @@ class ReadMeTest extends TestCase
         self::assertEquals('Alan', $cat->getName());
         self::assertEquals(10, $cat->getAge());
     }
+
+    public function test_switch_default(): void
+    {
+        $switchProxy = ControlChainingFactory::switch(new Cat('Tom', 5), 2);
+        // 或 $switchProxy = new SwitchChainingProxy(new Cat('Tom', 5), 2);
+        $cat = $switchProxy
+            ->caseChaining(1)->setName('Tony')->breakChaining()
+            ->defaultChaining()->setName('Alan')->setAge(10)
+            ->endSwitchChaining();
+
+        self::assertEquals('Alan', $cat->getName());
+        self::assertEquals(10, $cat->getAge());
+    }
 }

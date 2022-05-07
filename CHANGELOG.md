@@ -1,8 +1,10 @@
 # Changelog
-## 1.1.0 - 2022-05-06
+## 1.1.0 - 2022-05-07
 
 - 新增 `SwitchChainingProxy` ,根据 `caseChaining` 传入的判定值来判断是否真正执行后续的代理方法。
-  - 新增 `caseChaining`。
+  - 新增 `caseChaining` 方法。
+  - 新增 `defaultChaining` 方法。
+  - 新增 `breakChaining` 方法。
 - 修改 `ControlChainingFactory`。
   - 新增 `switch` 方法快速创建对应代理器。
 - 修改 `HasMethodChaining` trait。

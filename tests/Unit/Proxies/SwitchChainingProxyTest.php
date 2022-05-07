@@ -38,6 +38,46 @@ class SwitchChainingProxyTest extends TestCase
         self::assertEquals(1, $cat2->getAge());
     }
 
+    public function test_switch_default(): void
+    {
+        $cat = new Cat('a', 1);
+        $proxy = new SwitchChainingProxy($cat, 2);
+        $proxy->caseChaining(1)->setName('b')->breakChaining()
+            ->caseChaining(2)->setName('c')
+            ->defaultChaining(2)->setName('d');
+
+        self::assertEquals('d', $cat->getName());
+
+        $cat = new Cat('a', 1);
+        $proxy = new SwitchChainingProxy($cat, 2);
+        $proxy->caseChaining(1)->setName('b')
+            ->caseChaining(2)->setName('c')->breakChaining()
+            ->defaultChaining(2)->setName('d');
+
+        self::assertEquals('c', $cat->getName());
+    }
+
+    public function test_break_multilayer(): void
+    {
+        $cat = new Cat('a', 1);
+        $proxy = new SwitchChainingProxy($cat, 2);
+        $proxy->caseChaining(1)->setName('b')
+            ->caseChaining(2)->setName('c')
+            ->switchChaining(3)->caseChaining(3)->setAge(5)->breakChaining()->endSwitchChaining()
+            ->caseChaining(2)->setAge(10);
+
+        self::assertEquals(10, $cat->getAge());
+
+        $cat = new Cat('a', 1);
+        $proxy = new SwitchChainingProxy($cat, 2);
+        $proxy->caseChaining(1)->setName('b')
+            ->caseChaining(2)->setName('c')
+            ->switchChaining(3)->caseChaining(3)->setAge(5)->breakChaining(2)->endSwitchChaining()
+            ->caseChaining(2)->setAge(10);
+
+        self::assertEquals(5, $cat->getAge());
+    }
+
     public function test_break_chaining(): void
     {
         $value = 1;
@@ -51,17 +91,5 @@ class SwitchChainingProxyTest extends TestCase
         $cat2 = $proxy->endSwitchChaining();
         self::assertEquals('b', $cat2->getName());
         self::assertEquals(1, $cat2->getAge());
-    }
-
-    public function test_dynamic_property(): void
-    {
-        $proxy = new SwitchChainingProxy(new Cat('a', 1), 2);
-
-        $proxy->caseChaining(1)->setName('b')->breakChaining()
-            ->caseChaining(2)->setName('c')->breakChaining()
-            ->caseChaining(3)->setName('d')->breakChaining();
-
-        $cat = $proxy->endSwitchChaining();
-        self::assertEquals('c', $cat->getName());
     }
 }
